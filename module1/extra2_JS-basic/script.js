@@ -1,4 +1,5 @@
 const clientName = prompt('Enter name of client').trim();
+clientName[0].toUpperCase();
 let clientSpentForAllTime = Number(
   prompt('How much client spent for all time?').trim()
 );
