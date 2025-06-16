@@ -26,10 +26,12 @@ const peopleWithVisa = [
 ];
 
 function allowVisa(people) {
-  return people.filter(
-    ({ criminalRecord, passportExpiration }) =>
-      !criminalRecord && Date.now() < new Date(passportExpiration).getTime()
-  );
+  if (people && people.length > 0) {
+    return people.filter(
+      ({ criminalRecord, passportExpiration }) =>
+        !criminalRecord && Date.now() < new Date(passportExpiration).getTime()
+    );
+  }
 }
 
 const result = allowVisa(peopleWithVisa);
