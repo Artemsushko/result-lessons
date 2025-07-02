@@ -16,20 +16,21 @@ const tasks = [
   },
 ];
 
-let taskIdToDelete = null;
+const taskForm = document.querySelector('.create-task-block');
+taskForm.addEventListener('submit', createTask);
+
+const error = document.createElement('span');
+error.className = 'error-message-block';
 
 const tasksList = document.querySelector('.tasks-list');
 tasksList.addEventListener('click', (event) => {
   const { target } = event;
   if (target.classList.contains('task-item__delete-button')) {
     const taskItem = target.closest('.task-item');
-    taskIdToDelete = taskItem?.dataset.taskId;
-    renderModal();
+    const taskIdToDelete = taskItem?.dataset.taskId;
+    renderModal(taskIdToDelete);
   }
 });
-
-const taskForm = document.querySelector('.create-task-block');
-taskForm.addEventListener('submit', createTask);
 
 function isInputValid(value) {
   if (value.length === 0) {
@@ -42,8 +43,6 @@ function isInputValid(value) {
 }
 
 function createErrorMessage(errorText) {
-  const error = document.createElement('span');
-  error.className = 'error-message-block';
   error.textContent = errorText;
   taskForm.append(error);
 }
@@ -69,7 +68,7 @@ function createTask(event) {
     text: taskText,
   };
   tasks.push(newTask);
-  renderTasks([newTask]);
+  renderTasks(tasks);
   input.value = '';
   input.focus();
 }
@@ -108,25 +107,31 @@ function renderTask({ id, text }) {
   mainContent.append(form, span);
   mainContainer.append(mainContent, button);
   taskItem.append(mainContainer);
-  tasksList.append(taskItem);
+
+  return taskItem;
 }
 
 function renderTasks(tasks) {
+  tasksList.innerHTML = '';
   tasks.forEach((task) => {
-    renderTask(task);
+    tasksList.append(renderTask(task));
   });
 }
-function renderModal() {
-  const modalOverlay = document.createElement('div');
 
+function renderModal(taskIdToDelete) {
+  const modalOverlay = document.createElement('div');
   modalOverlay.className = 'modal-overlay';
+
   const deleteModal = document.createElement('div');
   deleteModal.className = 'delete-modal';
+
   const deleteQuestion = document.createElement('h3');
   deleteQuestion.className = 'delete-modal__question';
   deleteQuestion.textContent = 'Вы действительно хотите удалить эту задачу?';
+
   const modalButtons = document.createElement('div');
   modalButtons.className = 'delete-modal__buttons';
+
   const cancelButton = document.createElement('button');
   cancelButton.className = 'delete-modal__button delete-modal__cancel-button';
   cancelButton.textContent = 'Отмена';
@@ -134,6 +139,7 @@ function renderModal() {
     modalOverlay.classList.add('modal-overlay_hidden');
     modalOverlay.remove();
   });
+
   const confirmButton = document.createElement('button');
   confirmButton.className = 'delete-modal__button delete-modal__confirm-button';
   confirmButton.textContent = 'Удалить';
@@ -153,36 +159,18 @@ function deleteTask(id) {
   const taskItem = document.querySelector(`[data-task-id="${id}"]`);
   if (!taskItem) return;
   const taskItemId = tasks.findIndex((task) => task.id === id);
-  if (taskItemId !== -1) tasks.splice(taskItemId, 1);
+  if (taskItemId > -1) tasks.splice(taskItemId, 1);
   taskItem.remove();
 }
 
 renderTasks(tasks);
 
 const body = document.body;
-const taskItems = tasksList.querySelectorAll('.task-item');
-const allButtons = document.querySelectorAll('button');
 
 document.addEventListener('keydown', (event) => {
   const { key } = event;
   if (key === 'Tab') {
-    const bodyBg = getComputedStyle(body).backgroundColor;
-    if (bodyBg === 'rgb(36, 41, 46)') {
-      body.style.backgroundColor = 'transparent';
-      taskItems.forEach((item) => {
-        item.style.color = '#000';
-      });
-      allButtons.forEach((btn) => {
-        btn.style.border = 'none';
-      });
-    } else {
-      body.style.backgroundColor = '#24292E';
-      taskItems.forEach((item) => {
-        item.style.color = '#ffffff';
-      });
-      allButtons.forEach((btn) => {
-        btn.style.border = '1px solid #ffffff';
-      });
-    }
+    event.preventDefault();
+    body.classList.toggle('dark-theme');
   }
 });

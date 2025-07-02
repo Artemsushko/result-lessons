@@ -20,6 +20,18 @@ body {
   margin: 0;
 }
 
+.dark-theme {
+  background-color: #24292e;
+}
+
+.dark-theme .task-item {
+  color: #fff;
+}
+
+.dark-theme button {
+  border: 1px solid #fff;
+}
+
 #tasks {
   display: flex;
   flex-direction: column;
