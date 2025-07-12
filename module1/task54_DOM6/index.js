@@ -15,6 +15,12 @@ const tasks = [
     text: 'Выполнить ДЗ после урока',
   },
 ];
+const mainNavigation = document.querySelector('.main-navigation');
+mainNavigation.addEventListener('click', selectTask);
+
+const allNavBtns = mainNavigation.querySelectorAll(
+  '.main-navigation__button-item'
+);
 
 const taskForm = document.querySelector('.create-task-block');
 taskForm.addEventListener('submit', createTask);
@@ -31,6 +37,24 @@ tasksList.addEventListener('click', (event) => {
     renderModal(taskIdToDelete);
   }
 });
+
+function selectTask(event) {
+  const { target } = event;
+  if (target.classList.contains('main-navigation__button-item')) {
+    allNavBtns.forEach((btn) => {
+      btn.classList.remove('main-navigation__button-item_selected');
+    });
+    target.classList.add('main-navigation__button-item_selected');
+  }
+}
+
+function setIdsToNavBtns() {
+  if (allNavBtns.length > 0) {
+    for (let i = 0; i < allNavBtns.length; i++) {
+      allNavBtns[i].dataset.buttonId = i + 1;
+    }
+  }
+}
 
 function isInputValid(value) {
   if (value.length === 0) {
@@ -164,7 +188,7 @@ function deleteTask(id) {
 }
 
 renderTasks(tasks);
-
+setIdsToNavBtns();
 const body = document.body;
 
 document.addEventListener('keydown', (event) => {
