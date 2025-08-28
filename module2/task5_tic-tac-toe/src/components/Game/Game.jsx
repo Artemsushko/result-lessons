@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useStore } from "../hooks/useStore";
 import GameLayOut from "./GameLayOut";
 
 const WIN_PATTERNS = [
@@ -13,12 +13,7 @@ const WIN_PATTERNS = [
 ];
 
 const Game = () => {
-  const [gameState, setGameState] = useState({
-    currentPlayer: "X",
-    isGameEnded: false,
-    isDraw: false,
-    field: Array(9).fill(""),
-  });
+  const { getState, updateState, reset } = useStore();
 
   const checkWinner = (field, player) =>
     WIN_PATTERNS.some((pattern) =>
@@ -30,48 +25,25 @@ const Game = () => {
   const switchPlayer = (player) => (player === "X" ? "O" : "X");
 
   const handleMove = (index) => {
-    const { field, currentPlayer, isGameEnded } = gameState;
+    const { field, currentPlayer, isGameEnded } = getState();
     if (field[index] !== "" || isGameEnded) return;
 
     const newField = [...field];
     newField[index] = currentPlayer;
 
-    if (checkWinner(newField, currentPlayer)) {
-      setGameState((prev) => ({
-        ...prev,
-        field: newField,
-        isGameEnded: true,
-      }));
-      return;
-    }
+    let updates = { field: newField };
 
-    if (checkDraw(newField)) {
-      setGameState((prev) => ({
-        ...prev,
-        field: newField,
-        isDraw: true,
-      }));
-      return;
-    }
+    if (checkWinner(newField, currentPlayer)) updates.isGameEnded = true;
+    else if (checkDraw(newField)) updates.isDraw = true;
+    else updates.currentPlayer = switchPlayer(currentPlayer);
 
-    setGameState((prev) => ({
-      ...prev,
-      field: newField,
-      currentPlayer: switchPlayer(currentPlayer),
-    }));
+    updateState(updates);
   };
 
-  const resetGame = () => {
-    setGameState({
-      currentPlayer: "X",
-      isGameEnded: false,
-      isDraw: false,
-      field: Array(9).fill(""),
-    });
-  };
+  const resetGame = () => reset();
 
   return (
-    <GameLayOut {...gameState} handleMove={handleMove} resetGame={resetGame} />
+    <GameLayOut {...getState()} handleMove={handleMove} resetGame={resetGame} />
   );
 };
 

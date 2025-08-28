@@ -7,7 +7,7 @@ const FieldLayOut = ({ field, makeMove }) => {
         <button
           onClick={() => makeMove(index)}
           key={index}
-          className={styles.cell}
+          className={`${styles.cell} ${btn ? styles.taken : ""}`}
         >
           {btn}
         </button>
