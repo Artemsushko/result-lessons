@@ -1,5 +1,41 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
 import { useState, useRef } from "react";
 import styles from "./App.module.css";
+
+const emailSchema = yup.string().test({
+  message: "Email должен быть вида example@mail.com",
+  test: (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+});
+
+const passwordSchema = yup
+  .string()
+  .test({
+    message: "Минимум 8 символов.",
+    test: (value) => !value || /.{8,}/.test(value),
+  })
+  .test({
+    message: "Хотя бы одна цифра.",
+    test: (value) => !value || /\d/.test(value),
+  })
+  .test({
+    message: "Хотя бы одна заглавная буква.",
+    test: (value) => !value || /[A-Z]/.test(value),
+  })
+  .test({
+    message: "Хотя бы один спецсимвол.",
+    test: (value) => !value || /[!@#$%^&*_]/.test(value),
+  });
+
+const validateAndGetErrorMessage = (schema, value) => {
+  try {
+    schema.validateSync(value, { abortEarly: false });
+    return [];
+  } catch ({ errors }) {
+    return errors;
+  }
+};
 
 function App() {
   const [formData, setFormData] = useState({
@@ -9,39 +45,22 @@ function App() {
   });
 
   const [errors, setErrors] = useState({
-    email: "",
+    email: [],
     password: [],
-    confirmedPassword: "",
+    confirmedPassword: [],
   });
 
+  const { email, password, confirmedPassword } = formData;
   const submitBtnRef = useRef(null);
   const emailInputRef = useRef(null);
-
-  const { email, password, confirmedPassword } = formData;
-
-  const validateEmail = (value) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-      ? ""
-      : "Email должен быть вида example@mail.com";
-
-  const validatePassword = (value) => {
-    if (!value) return [];
-
-    let error = [];
-    if (!/.{8,}/.test(value)) error.push("Минимум 8 символов.");
-    if (!/[A-Z]/.test(value)) error.push("Хотя бы одна заглавная буква.");
-    if (!/\d/.test(value)) error.push("Хотя бы одна цифра.");
-    if (!/[!@#$%^&*_]/.test(value)) error.push("Хотя бы один спецсимвол.");
-
-    return error;
-  };
 
   const onEmailChange = ({ target }) => {
     const { value } = target;
     setFormData((prev) => ({ ...prev, email: value }));
 
-    const error = validateEmail(value);
-    setErrors((prev) => ({ ...prev, email: error }));
+    const newErrors = validateAndGetErrorMessage(emailSchema, value);
+
+    setErrors((prev) => ({ ...prev, email: newErrors }));
 
     if (canSubmit) {
       focusSubmitBtn();
@@ -49,18 +68,13 @@ function App() {
   };
 
   const onPasswordChange = ({ target }) => {
-    setFormData((prev) => ({ ...prev, password: target.value }));
-
     const value = target.value;
-    const error = validatePassword(value);
-    setErrors((prev) => ({
-      ...prev,
-      password: error,
-      confirmedPassword:
-        confirmedPassword && confirmedPassword !== value
-          ? "Пароли не совпадают"
-          : "",
-    }));
+
+    setFormData((prev) => ({ ...prev, password: value }));
+
+    const newErrors = validateAndGetErrorMessage(passwordSchema, value);
+
+    setErrors((prev) => ({ ...prev, password: newErrors }));
 
     if (canSubmit) {
       focusSubmitBtn();
@@ -73,13 +87,13 @@ function App() {
     setFormData((prev) => ({ ...prev, confirmedPassword: value }));
 
     if (value.length === 0) {
-      setErrors((prev) => ({ ...prev, confirmedPassword: "" }));
+      setErrors((prev) => ({ ...prev, confirmedPassword: [] }));
       return;
     }
 
     setErrors((prev) => ({
       ...prev,
-      confirmedPassword: value !== password ? "Пароли не совпадают" : "",
+      confirmedPassword: value !== password ? ["Пароли не совпадают"] : [],
     }));
 
     if (canSubmit) {
@@ -98,9 +112,9 @@ function App() {
     });
 
     setErrors({
-      email: "",
+      email: [],
       password: [],
-      confirmedPassword: "",
+      confirmedPassword: [],
     });
 
     emailInputRef.current.focus();
@@ -114,9 +128,9 @@ function App() {
     email &&
     password &&
     confirmedPassword &&
-    !errors.email &&
+    errors.email.length === 0 &&
     errors.password.length === 0 &&
-    !errors.confirmedPassword;
+    errors.confirmedPassword.length === 0;
 
   return (
     <form className={styles.form} onSubmit={sendFormData}>
@@ -128,7 +142,13 @@ function App() {
         ref={emailInputRef}
         onChange={onEmailChange}
       />
-      {errors.email && <div className={styles.error}>{errors.email}</div>}
+      {errors.email.length > 0 && (
+        <div className={styles.error}>
+          {errors.email.map((er, i) => (
+            <div key={i}>{er}</div>
+          ))}
+        </div>
+      )}
 
       <input
         name="password"
@@ -153,8 +173,12 @@ function App() {
         disabled={!password}
         onChange={onPasswordConfirmedChange}
       />
-      {errors.confirmedPassword && (
-        <div className={styles.error}>{errors.confirmedPassword}</div>
+      {errors.confirmedPassword.length > 0 && (
+        <div className={styles.error}>
+          {errors.confirmedPassword.map((er, i) => (
+            <div key={i}>{er}</div>
+          ))}
+        </div>
       )}
 
       <button type="submit" ref={submitBtnRef} disabled={!canSubmit}>
