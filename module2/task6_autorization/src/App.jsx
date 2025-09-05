@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./App.module.css";
 
 const passwordSchema = yup
@@ -39,6 +39,7 @@ const fieldsSchema = yup.object().shape({
 export default function App() {
   const submitBtnRef = useRef(null);
   const emailInputRef = useRef(null);
+  const [focused, setFocused] = useState(false);
 
   const {
     register,
@@ -68,8 +69,22 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (canSubmit) submitBtnRef.current.focus();
+    if (canSubmit && !focused) {
+      submitBtnRef.current.focus();
+      setFocused(true);
+    }
+    if (!canSubmit && focused) {
+      setFocused(false);
+    }
   }, [canSubmit]);
+
+  const getPasswordErrors = (errors) => {
+    try {
+      return JSON.parse(errors);
+    } catch {
+      return [errors];
+    }
+  };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(sendFormData)}>
@@ -90,7 +105,7 @@ export default function App() {
       />
       {errors.password && (
         <div className={styles.error}>
-          {JSON.parse(errors.password.message).map((error, i) => (
+          {getPasswordErrors(errors.password.message).map((error, i) => (
             <div key={i}>{error}</div>
           ))}
         </div>
