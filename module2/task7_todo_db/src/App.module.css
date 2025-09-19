@@ -1,0 +1,84 @@
+/* Контейнер всего приложения */
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Заголовок */
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+  color: #2c3e50;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Список дел */
+.todoList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Один элемент списка */
+.todoItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  transition: background 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.todoItem:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-2px);
+}
+
+/* Текст дела */
+.todoText {
+  font-size: 1rem;
+  color: #374151;
+  flex: 1;
+}
+
+/* Если дело завершено */
+.completed {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25px;
+  height: 25px;
+  border: 5px solid gray;
+  border-radius: 50%;
+  border-left-color: transparent;
+  animation: loader 1s infinite;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
