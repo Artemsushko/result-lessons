@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
-import AddTodoForm from "./components/Form";
+import AddTodoForm from "./components/Form/Form";
+import TodoList from "./components/TodoList/TodoList";
+import SearchBox from "./components/SearchBox/SearchBox";
+import SortButton from "./components/SortButton/SortButton";
+import Loader from "./components/Loader/Loader";
 import styles from "./App.module.css";
 const TODOS_URL = "http://localhost:3006/todos";
 
 const App = () => {
-  const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [todos, setTodos] = useState([]);
+  const [search, setSearch] = useState("");
+  const [isSorted, setIsSorted] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -21,59 +27,28 @@ const App = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleAddTodo = (title) => {
-    fetch(TODOS_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json;charset=utf-8" },
-      body: JSON.stringify({ title, completed: false }),
-    })
-      .then((res) => res.json())
-      .then((newTodo) => setTodos((prev) => [...prev, newTodo]))
-      .catch(console.error);
-  };
-
-  const handleDelete = (id) => {
-    fetch(`${TODOS_URL}/${id}`, { method: "DELETE" })
-      .then(() => {
-        setTodos((prev) => prev.filter((todo) => todo.id !== id));
-      })
-      .catch(console.error);
-  };
+  const filteredTodos = todos
+    .filter((todo) => todo.title.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => {
+      if (!isSorted) return 0;
+      return a.title.localeCompare(b.title);
+    });
 
   return (
     <>
       {loading ? (
-        <div className={styles.loader}></div>
+        <Loader />
       ) : (
         <div className={styles.container}>
-          <AddTodoForm onAdd={handleAddTodo} />
+          <SearchBox search={search} setSearch={setSearch} />
+          <AddTodoForm TODOS_URL={TODOS_URL} setTodos={setTodos} />
           <h1 className={styles.title}>Список Дел</h1>
-          <ul className={styles.todoList}>
-            {todos.length < 1 ? (
-              <p className={styles.emptyList}>Список дел пуст</p>
-            ) : (
-              todos.map((todo) => (
-                <li key={todo.id} className={styles.todoItem}>
-                  <span
-                    className={`${styles.todoText} ${
-                      todo.completed ? styles.completed : ""
-                    }`}
-                  >
-                    {todo.title}
-                  </span>
-                  <button
-                    className={styles.deleteButton}
-                    onClick={() => {
-                      if (window.confirm("Удалить это дело?"))
-                        handleDelete(todo.id);
-                    }}
-                  >
-                    ×
-                  </button>
-                </li>
-              ))
-            )}
-          </ul>
+          <SortButton isSorted={isSorted} setIsSorted={setIsSorted} />
+          <TodoList
+            todos={filteredTodos}
+            setTodos={setTodos}
+            TODOS_URL={TODOS_URL}
+          />
         </div>
       )}
     </>

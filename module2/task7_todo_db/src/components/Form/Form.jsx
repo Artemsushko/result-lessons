@@ -1,13 +1,24 @@
 import { useState } from "react";
 import styles from "./Form.module.css";
 
-const AddTodoForm = ({ onAdd }) => {
+const AddTodoForm = ({ TODOS_URL, setTodos }) => {
   const [newTodo, setNewTodo] = useState("");
+
+  const handleAddTodo = (title) => {
+    fetch(TODOS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=utf-8" },
+      body: JSON.stringify({ title, completed: false }),
+    })
+      .then((res) => res.json())
+      .then((newTodo) => setTodos((prev) => [...prev, newTodo]))
+      .catch(console.error);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!newTodo.trim()) return;
-    onAdd(newTodo);
+    handleAddTodo(newTodo);
     setNewTodo("");
   };
 
