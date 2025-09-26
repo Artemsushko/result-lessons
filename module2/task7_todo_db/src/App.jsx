@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
+import { useDebounce } from "./hooks/useDebounce";
 import AddTodoForm from "./components/Form/Form";
 import TodoList from "./components/TodoList/TodoList";
 import SearchBox from "./components/SearchBox/SearchBox";
 import SortButton from "./components/SortButton/SortButton";
 import Loader from "./components/Loader/Loader";
 import styles from "./App.module.css";
-const TODOS_URL = "http://localhost:3006/todos";
+const TODOS_URL = "http://localhost:3000/todos";
 
 const App = () => {
   const [loading, setLoading] = useState(false);
   const [todos, setTodos] = useState([]);
   const [search, setSearch] = useState("");
   const [isSorted, setIsSorted] = useState(false);
+
+  const debouncedSerach = useDebounce(search);
 
   useEffect(() => {
     setLoading(true);
@@ -28,7 +31,9 @@ const App = () => {
   }, []);
 
   const filteredTodos = todos
-    .filter((todo) => todo.title.toLowerCase().includes(search.toLowerCase()))
+    .filter((todo) =>
+      todo.title.toLowerCase().includes(debouncedSerach.toLowerCase())
+    )
     .sort((a, b) => {
       if (!isSorted) return 0;
       return a.title.localeCompare(b.title);
