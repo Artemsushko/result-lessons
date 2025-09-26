@@ -1,35 +1,28 @@
 import styles from "./TodoItem.module.css";
+import { db } from "../../firebase";
+import { ref, remove, update } from "firebase/database";
 
-const TodoItem = ({ id, completed, title, TODOS_URL, setTodos }) => {
-  const handleDelete = (id) => {
-    fetch(`${TODOS_URL}/${id}`, { method: "DELETE" })
-      .then(() => {
-        setTodos((prev) => prev.filter((todo) => todo.id !== id));
-      })
-      .catch(console.error);
+const TodoItem = ({ id, completed, title }) => {
+  const handleDelete = async () => {
+    const todoRef = ref(db, `todos/${id}`);
+    try {
+      await remove(todoRef);
+    } catch (error) {
+      console.error("Ошибка при удалении:", error);
+    }
   };
 
-  const handleToggle = (id, completed) => {
-    fetch(`${TODOS_URL}/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ completed: !completed }),
-    })
-      .then((res) => res.json())
-      .then((updatedTodo) => {
-        setTodos((prev) =>
-          prev.map((todo) =>
-            todo.id === id
-              ? { ...todo, completed: updatedTodo.completed }
-              : todo
-          )
-        );
-      })
-      .catch(console.error);
+  const handleToggle = async () => {
+    const todoRef = ref(db, `todos/${id}`);
+    try {
+      await update(todoRef, { completed: !completed });
+    } catch (error) {
+      console.error("Ошибка при обновлении:", error);
+    }
   };
 
   return (
-    <li key={id} className={styles.todoItem}>
+    <li className={styles.todoItem}>
       <input
         type="checkbox"
         className={styles.checkbox}

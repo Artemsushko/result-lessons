@@ -1,18 +1,18 @@
 import { useState } from "react";
 import styles from "./Form.module.css";
+import { ref, push } from "firebase/database";
+import { db } from "../../firebase";
 
-const AddTodoForm = ({ TODOS_URL, setTodos }) => {
+const AddTodoForm = () => {
   const [newTodo, setNewTodo] = useState("");
 
-  const handleAddTodo = (title) => {
-    fetch(TODOS_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json;charset=utf-8" },
-      body: JSON.stringify({ title, completed: false }),
-    })
-      .then((res) => res.json())
-      .then((newTodo) => setTodos((prev) => [...prev, newTodo]))
-      .catch(console.error);
+  const handleAddTodo = async (title) => {
+    const todoRef = ref(db, "todos");
+    try {
+      await push(todoRef, { title, completed: false });
+    } catch (error) {
+      console.error("Ошибка при добавлении дела:", error);
+    }
   };
 
   const handleSubmit = (e) => {

@@ -6,7 +6,8 @@ import SearchBox from "./components/SearchBox/SearchBox";
 import SortButton from "./components/SortButton/SortButton";
 import Loader from "./components/Loader/Loader";
 import styles from "./App.module.css";
-const TODOS_URL = "http://localhost:3000/todos";
+import { db } from "./firebase";
+import { ref, onValue } from "firebase/database";
 
 const App = () => {
   const [loading, setLoading] = useState(false);
@@ -14,25 +15,36 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [isSorted, setIsSorted] = useState(false);
 
-  const debouncedSerach = useDebounce(search);
+  const debouncedSearch = useDebounce(search);
 
   useEffect(() => {
     setLoading(true);
-
-    fetch(TODOS_URL)
-      .then((loadedData) => loadedData.json())
-      .then((todos) => {
-        setTodos(todos);
-      })
-      .catch((e) => {
-        console.error(e);
-      })
-      .finally(() => setLoading(false));
+    const todoRef = ref(db, "todos");
+    return onValue(
+      todoRef,
+      (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          const loadedTodos = Object.entries(data).map(([id, value]) => ({
+            id,
+            ...value,
+          }));
+          setTodos(loadedTodos);
+        } else {
+          setTodos([]);
+        }
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Ошибка при загрузке:", error);
+        setLoading(false);
+      }
+    );
   }, []);
 
   const filteredTodos = todos
     .filter((todo) =>
-      todo.title.toLowerCase().includes(debouncedSerach.toLowerCase())
+      todo.title.toLowerCase().includes(debouncedSearch.toLowerCase())
     )
     .sort((a, b) => {
       if (!isSorted) return 0;
@@ -46,14 +58,10 @@ const App = () => {
       ) : (
         <div className={styles.container}>
           <SearchBox search={search} setSearch={setSearch} />
-          <AddTodoForm TODOS_URL={TODOS_URL} setTodos={setTodos} />
+          <AddTodoForm />
           <h1 className={styles.title}>Список Дел</h1>
           <SortButton isSorted={isSorted} setIsSorted={setIsSorted} />
-          <TodoList
-            todos={filteredTodos}
-            setTodos={setTodos}
-            TODOS_URL={TODOS_URL}
-          />
+          <TodoList todos={filteredTodos} />
         </div>
       )}
     </>
