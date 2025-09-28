@@ -1,21 +1,18 @@
 import styles from "./TodoItem.module.css";
-import { db } from "../../firebase";
-import { ref, remove, update } from "firebase/database";
+import { deleteTodo, toggleTodo } from "../../firebaseService";
 
 const TodoItem = ({ id, completed, title }) => {
   const handleDelete = async () => {
-    const todoRef = ref(db, `todos/${id}`);
     try {
-      await remove(todoRef);
+      await deleteTodo(id);
     } catch (error) {
       console.error("Ошибка при удалении:", error);
     }
   };
 
   const handleToggle = async () => {
-    const todoRef = ref(db, `todos/${id}`);
     try {
-      await update(todoRef, { completed: !completed });
+      await toggleTodo(id, completed);
     } catch (error) {
       console.error("Ошибка при обновлении:", error);
     }

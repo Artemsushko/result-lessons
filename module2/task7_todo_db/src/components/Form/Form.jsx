@@ -1,15 +1,13 @@
 import { useState } from "react";
 import styles from "./Form.module.css";
-import { ref, push } from "firebase/database";
-import { db } from "../../firebase";
+import { addTodo } from "../../firebaseService";
 
 const AddTodoForm = () => {
   const [newTodo, setNewTodo] = useState("");
 
   const handleAddTodo = async (title) => {
-    const todoRef = ref(db, "todos");
     try {
-      await push(todoRef, { title, completed: false });
+      await addTodo(title);
     } catch (error) {
       console.error("Ошибка при добавлении дела:", error);
     }

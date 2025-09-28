@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDebounce } from "./hooks/useDebounce";
+import { useFilteredTodos } from "./hooks/useFilteredTodos";
 import AddTodoForm from "./components/Form/Form";
 import TodoList from "./components/TodoList/TodoList";
 import SearchBox from "./components/SearchBox/SearchBox";
@@ -14,8 +14,7 @@ const App = () => {
   const [todos, setTodos] = useState([]);
   const [search, setSearch] = useState("");
   const [isSorted, setIsSorted] = useState(false);
-
-  const debouncedSearch = useDebounce(search);
+  const filteredTodos = useFilteredTodos(isSorted, todos, search);
 
   useEffect(() => {
     setLoading(true);
@@ -41,15 +40,6 @@ const App = () => {
       }
     );
   }, []);
-
-  const filteredTodos = todos
-    .filter((todo) =>
-      todo.title.toLowerCase().includes(debouncedSearch.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (!isSorted) return 0;
-      return a.title.localeCompare(b.title);
-    });
 
   return (
     <>
