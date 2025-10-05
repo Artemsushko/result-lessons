@@ -1,4 +1,4 @@
-import { Routes, Route, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./TodoItem.module.css";
 
 const TodoItem = ({ id, completed, title }) => {

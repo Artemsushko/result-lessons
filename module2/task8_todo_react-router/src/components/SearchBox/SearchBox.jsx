@@ -3,6 +3,8 @@ import styles from "./SearchBox.module.css";
 const SearchBox = ({ search, setSearch }) => {
   return (
     <input
+      id="search"
+      name="search"
       type="text"
       placeholder="Поиск..."
       className={styles.searchBox}

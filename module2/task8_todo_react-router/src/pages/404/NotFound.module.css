@@ -1,0 +1,29 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  color: #fff;
+  text-align: center;
+}
+
+.error h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.error p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.error a {
+  color: #00bfff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.error a:hover {
+  text-decoration: underline;
+}
