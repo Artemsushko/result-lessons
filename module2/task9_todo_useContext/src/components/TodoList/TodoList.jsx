@@ -1,7 +1,7 @@
 import styles from "./TodoList.module.css";
 import TodoItem from "../TodoItem/TodoItem";
 
-const TodoList = ({ todos, setTodos, TODOS_URL }) => {
+const TodoList = ({ todos }) => {
   return (
     <ul className={styles.todoList}>
       {todos.length < 1 ? (

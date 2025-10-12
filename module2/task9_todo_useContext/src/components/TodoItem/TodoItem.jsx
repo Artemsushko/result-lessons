@@ -4,6 +4,7 @@ import styles from "./TodoItem.module.css";
 
 const TodoItem = ({ id, completed, title }) => {
   const { setTodos, TODOS_URL } = useContext(AppContext);
+
   const handleDelete = (id) => {
     fetch(`${TODOS_URL}/${id}`, { method: "DELETE" })
       .then(() => {
