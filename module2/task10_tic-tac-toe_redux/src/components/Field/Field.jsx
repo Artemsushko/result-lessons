@@ -7,7 +7,7 @@ const Field = () => {
     dispatch({ type: "MAKE_MOVE", payload: { index } });
   };
 
-  return <FieldLayOut field={state.field} makeMove={makeMove}></FieldLayOut>;
+  return <FieldLayOut field={state.field} makeMove={makeMove} />;
 };
 
 export default Field;
