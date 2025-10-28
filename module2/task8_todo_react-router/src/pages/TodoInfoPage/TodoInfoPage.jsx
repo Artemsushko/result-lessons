@@ -1,9 +1,10 @@
-import { useParams, useNavigate, replace } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loader from "../../components/Loader/Loader";
 import styles from "./TodoInfoPage.module.css";
+import { memo } from "react";
 
-const TodoInfoPage = ({ TODOS_URL, refreshTodos }) => {
+const TodoInfoPage = memo(({ TODOS_URL, refreshTodos }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [todo, setTodo] = useState(null);
@@ -94,6 +95,6 @@ const TodoInfoPage = ({ TODOS_URL, refreshTodos }) => {
       </div>
     </div>
   );
-};
+});
 
 export default TodoInfoPage;
