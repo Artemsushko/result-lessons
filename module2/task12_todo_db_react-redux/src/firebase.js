@@ -2,14 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAKLka2uGe79i_YWw0jYQGtW_H14F-8fzw",
-  authDomain: "todo-list-4b21d.firebaseapp.com",
-  projectId: "todo-list-4b21d",
-  storageBucket: "todo-list-4b21d.firebasestorage.app",
-  messagingSenderId: "226948509897",
-  appId: "1:226948509897:web:39ebe427c4866542735d18",
-  databaseURL:
-    "https://todo-list-4b21d-default-rtdb.europe-west1.firebasedatabase.app/",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MSG_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  databaseURL: import.meta.env.VITE_DB_URL,
 };
 
 const app = initializeApp(firebaseConfig);

@@ -1,4 +1,4 @@
-import { selectField } from "../../selectors/selectors";
+import { selectField } from "../../selectors";
 import FieldLayOut from "./FieldLayout";
 import { useDispatch, useSelector } from "react-redux";
 

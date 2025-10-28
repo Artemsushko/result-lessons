@@ -1,9 +1,11 @@
 import { initialState } from "./initialState";
 import { checkWinner } from "../utils/checkWinner";
+const MAKE_MOVE = "MAKE_MOVE";
+const RESET_GAME = "RESET_GAME";
 
 export const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case "MAKE_MOVE": {
+    case MAKE_MOVE: {
       const { index } = payload;
       if (state.isGameEnded || state.field[index] !== "") return state;
 
@@ -27,7 +29,7 @@ export const reducer = (state = initialState, { type, payload }) => {
       };
     }
 
-    case "RESET_GAME":
+    case RESET_GAME:
       return initialState;
 
     default:
