@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { Header, Footer } from "./components";
 import styled from "styled-components";
 
 const Content = styled.div`
@@ -9,12 +10,19 @@ const H2 = styled.h2`
   text-align: center;
 `;
 
-const Header = () => <h1>Header</h1>;
-const Footer = () => <h1>Footer</h1>;
+const AppColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 1000px;
+  min-height: 100%;
+  margin: auto;
+  background-color: #fff;
+`;
 
 function Blog() {
   return (
-    <>
+    <AppColumn>
       <Header />
       <Content>
         <H2>Content</H2>
@@ -29,7 +37,7 @@ function Blog() {
         </Routes>
       </Content>
       <Footer />
-    </>
+    </AppColumn>
   );
 }
 
