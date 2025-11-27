@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Title, PublishedDate } from "../../components";
+import { Title, FormatedDate } from "../../components";
 import { Link } from "react-router-dom";
 
 const PostImage = styled.img`
@@ -15,7 +15,7 @@ const PostContainer = ({ children, className, src, date, postId }) => {
       <PostImage src={src} alt="Post image" />
       <div>
         <Title fontSize="18px">{children}</Title>
-        <PublishedDate>{date}</PublishedDate>
+        <FormatedDate>{date}</FormatedDate>
       </div>
     </Link>
   );

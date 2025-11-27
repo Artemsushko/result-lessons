@@ -1,6 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import { Header, Footer } from "./components";
-import { Authorization, Registration, MainPage, SinglePostPage } from "./pages";
+import {
+  Authorization,
+  Registration,
+  MainPage,
+  SinglePostPage,
+  Users,
+} from "./pages";
 import styled from "styled-components";
 
 const Content = styled.div`
@@ -26,7 +32,7 @@ function Blog() {
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<Authorization />} />
           <Route path="/register" element={<Registration />} />
-          <Route path="/users" element={<div>Users</div>} />
+          <Route path="/users" element={<Users />} />
           <Route path="/post/:postId" element={<SinglePostPage />} />
           <Route path="/post" element={<div>New post</div>} />
           <Route path="*" element={<div>Error</div>} />

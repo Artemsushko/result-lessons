@@ -6,4 +6,4 @@ export * from "./button/Button";
 export * from "./input/Input";
 export * from "./title/Title";
 export * from "./post/Post";
-export * from "./published-date/PublishedDate";
+export * from "./published-date/FormatedDate";

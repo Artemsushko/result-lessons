@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPosts } from "../../bff";
 import styled from "styled-components";
-import { Loader, Title, PublishedDate } from "../../components";
+import { Loader, Title, FormatedDate } from "../../components";
 
 const SinglePostImage = styled.img`
   width: 100%;
@@ -32,7 +32,7 @@ const SinglePostPageContainer = ({ className }) => {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60vh; // центр по вертикали
+    height: 60vh;
   `;
 
   if (!post)
@@ -47,7 +47,7 @@ const SinglePostPageContainer = ({ className }) => {
       <Title>{post.title}</Title>
       <SinglePostImage src={post.image_url} alt="Post image" />
       <PostText>{post.content}</PostText>
-      <PublishedDate>{post.published_at}</PublishedDate>
+      <FormatedDate>{post.published_at}</FormatedDate>
     </div>
   );
 };
