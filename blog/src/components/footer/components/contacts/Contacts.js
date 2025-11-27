@@ -1,10 +1,5 @@
 import styled from "styled-components";
-
-const Title = styled.div`
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-`;
+import { Title } from "../../../title/Title";
 
 const Email = styled.div`
   font-size: 14px;
@@ -14,7 +9,7 @@ const Email = styled.div`
 const ContactsContainer = ({ className }) => {
   return (
     <div className={className}>
-      <Title>Web Developer Blog</Title>
+      <Title fontSize="16px">Web Developer Blog</Title>
       <Email>web@developer.com</Email>
     </div>
   );

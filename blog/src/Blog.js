@@ -1,13 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import { Header, Footer } from "./components";
+import { Authorization, Registration, MainPage, SinglePostPage } from "./pages";
 import styled from "styled-components";
 
 const Content = styled.div`
   padding: 120px 0;
-`;
-
-const H2 = styled.h2`
-  text-align: center;
 `;
 
 const AppColumn = styled.div`
@@ -25,13 +22,12 @@ function Blog() {
     <AppColumn>
       <Header />
       <Content>
-        <H2>Content</H2>
         <Routes>
-          <Route path="/" element={<div>Main Page</div>} />
-          <Route path="/login" element={<div>Autorization</div>} />
-          <Route path="/register" element={<div>Registration</div>} />
+          <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<Authorization />} />
+          <Route path="/register" element={<Registration />} />
           <Route path="/users" element={<div>Users</div>} />
-          <Route path="/post/:postId" element={<div>Post</div>} />
+          <Route path="/post/:postId" element={<SinglePostPage />} />
           <Route path="/post" element={<div>New post</div>} />
           <Route path="*" element={<div>Error</div>} />
         </Routes>

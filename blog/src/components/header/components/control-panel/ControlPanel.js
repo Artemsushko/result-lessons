@@ -1,6 +1,7 @@
 import { Icon } from "../../../../components";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
+import { UIButtonLink } from "../../../../components";
 
 const RightAligned = styled.div`
   display: flex;
@@ -15,32 +16,14 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const Button = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  height: 36px;
-  font-size: 16px;
-  font-weight: 600;
-  background: #f4f4f4;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  transition: 0.2s;
-  &:hover {
-    background: #e9e9e9;
-  }
-  &:active {
-    background: #dcdcdc;
-  }
-`;
-
 const ControlPanelContainer = ({ className }) => {
   const navigate = useNavigate();
   return (
     <div className={className}>
       <RightAligned>
-        <Button to="/login">Sign In</Button>
+        <UIButtonLink to="/login" variant="outline" size="medium">
+          Log In
+        </UIButtonLink>
       </RightAligned>
       <RightAligned>
         <StyledLink onClick={() => navigate(-1)}>

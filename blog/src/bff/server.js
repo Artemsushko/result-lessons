@@ -6,16 +6,9 @@ export const server = {
   async authorize(authLogin, authPassword) {
     const user = await getUser(authLogin);
 
-    if (!user) {
+    if (!user || authPassword !== user.password) {
       return {
-        error: "User have not found",
-        res: null,
-      };
-    }
-
-    if (authPassword !== user.password) {
-      return {
-        error: "Password is invalid",
+        error: !user ? "User not found" : "Password is invalid",
         res: null,
       };
     }
@@ -27,20 +20,20 @@ export const server = {
   },
 
   async register(regLogin, regPassword) {
-    const user = getUser(regLogin);
+    const user = await getUser(regLogin);
 
     if (user) {
       return {
-        error: "This login has already used",
+        error: "This login is already taken",
         res: null,
       };
     }
 
-    await addUser(regLogin, regPassword);
+    const newUser = await addUser(regLogin, regPassword);
 
     return {
       error: null,
-      res: createSession(user.role_id),
+      res: createSession(newUser.role_id),
     };
   },
 };

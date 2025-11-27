@@ -15,6 +15,7 @@ export const Header = styled(HeaderContainer)`
   position: fixed;
   top: 0;
   padding: 20px 40px;
+  z-index: 1000;
   background-color: #fff;
   width: 1000px;
   height: 120px;
