@@ -6,6 +6,13 @@
       "password": "qwe123",
       "registred_at": "2023-12-04",
       "role_id": 0
+    },
+    {
+      "id": "002",
+      "login": "nastushka_stich",
+      "password": "0000",
+      "registred_at": "2023-12-04",
+      "role_id": 0
     }
   ],
   "roles": [

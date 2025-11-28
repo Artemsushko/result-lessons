@@ -26,7 +26,7 @@ const SinglePostPageContainer = ({ className }) => {
       setPost(post);
     };
     loadPost();
-  }, []);
+  }, [postId]);
 
   const LoaderWrapper = styled.div`
     display: flex;
