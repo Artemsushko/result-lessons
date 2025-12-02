@@ -1,5 +1,4 @@
 export const ACTION_TYPE = {
   SET_USER: "SET_USER",
   LOGOUT: "LOGOUT",
-  RESET_WAS_LOGOUT: "RESET_WAS_LOGOUT",
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { authorizationSchema } from "../../utils";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,9 +7,10 @@ import { Title, UIButton, Input, Error } from "../../components";
 import styled from "styled-components";
 import { RegistrationFooter } from "./components";
 import { useDispatch, useSelector } from "react-redux";
-import { ACTION_TYPE, setUser } from "../../store/actions";
+import { setUser } from "../../store/actions";
 import { useNavigate } from "react-router-dom";
 import { selectWasLogout } from "../../store/selectors/selectors";
+import { useResetForm } from "../../hooks";
 
 const AuthorizationContainer = ({ className }) => {
   const dispatch = useDispatch();
@@ -31,14 +32,7 @@ const AuthorizationContainer = ({ className }) => {
 
   const [serverError, setServerError] = useState(null);
 
-  useEffect(() => {
-    if (wasLogout) {
-      setTimeout(() => reset(), 0);
-      dispatch({
-        type: ACTION_TYPE.LOGOUT,
-      });
-    }
-  }, [wasLogout, dispatch, reset]);
+  useResetForm(wasLogout, reset);
 
   const onSubmit = async ({ login, password }) => {
     setServerError(null);

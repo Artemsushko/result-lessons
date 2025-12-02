@@ -5,11 +5,21 @@ import { registerSchema } from "../../utils";
 import { useState } from "react";
 import styled from "styled-components";
 import { server } from "../../bff";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setUser } from "../../store/actions";
+import { useResetForm } from "../../hooks";
+import { selectWasLogout } from "../../store/selectors/selectors";
 
 const RegistrationContainer = ({ className }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const wasLogout = useSelector(selectWasLogout);
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
@@ -23,6 +33,8 @@ const RegistrationContainer = ({ className }) => {
 
   const [serverError, setServerError] = useState(null);
 
+  useResetForm(wasLogout, reset);
+
   const onSubmit = async ({ login, password }) => {
     setServerError(null);
     try {
@@ -30,10 +42,11 @@ const RegistrationContainer = ({ className }) => {
       const { error, res } = await register(login, password);
       if (error) {
         setServerError(error);
-      } else {
-        console.log("Welcome:", res);
+        return;
       }
-    } catch (error) {
+      dispatch(setUser(res));
+      navigate("/");
+    } catch {
       setServerError("Something went wrong. Try again.");
     }
   };
