@@ -15,7 +15,7 @@ export const authorizationSchema = yup.object().shape({
     .string()
     .required("Field is required")
     .matches(
-      /^[\w#\-_$%]+$/,
+      /^[\w#$%\-_]+$/,
       "Password may contain only letters, numbers, _, #, -, $, and %"
     )
     .min(5, "Password must be at least 5 characters")

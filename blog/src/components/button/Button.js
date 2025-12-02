@@ -1,4 +1,3 @@
-// UIButton.js
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -12,7 +11,7 @@ const baseStyles = css`
       ? "6px 12px"
       : size === "large"
       ? "12px 22px"
-      : "10px 18px"};
+      : "8px 18px"};
 
   font-size: ${({ size }) =>
     size === "small" ? "14px" : size === "large" ? "18px" : "16px"};

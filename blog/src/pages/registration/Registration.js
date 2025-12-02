@@ -1,9 +1,8 @@
 import { useForm } from "react-hook-form";
-import { Input, Title, UIButton } from "../../components";
+import { Error, Input, Title, UIButton } from "../../components";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../utils";
 import { useState } from "react";
-import { FormError } from "../authorization/Authorization";
 import styled from "styled-components";
 import { server } from "../../bff";
 
@@ -48,26 +47,26 @@ const RegistrationContainer = ({ className }) => {
           placeholder="Enter login..."
           {...register("login")}
         />
-        {errors.login && <FormError>{errors.login.message}</FormError>}
+        {errors.login && <Error>{errors.login.message}</Error>}
 
         <Input
           type="password"
           placeholder="Enter password..."
           {...register("password")}
         />
-        {errors.password && <FormError>{errors.password.message}</FormError>}
+        {errors.password && <Error>{errors.password.message}</Error>}
         <Input
           type="password"
           placeholder="Confirm password..."
           {...register("confirmPassword")}
         />
         {errors.confirmPassword && (
-          <FormError>{errors.confirmPassword.message}</FormError>
+          <Error>{errors.confirmPassword.message}</Error>
         )}
         <UIButton type="submit" disabled={!isValid}>
           Sign up
         </UIButton>
-        {serverError && <FormError>{serverError}</FormError>}
+        {serverError && <Error>{serverError}</Error>}
       </form>
     </div>
   );

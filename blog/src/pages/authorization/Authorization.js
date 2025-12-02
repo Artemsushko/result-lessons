@@ -1,38 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { authorizationSchema } from "../../utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { server } from "../../bff";
-import { Title, UIButton, Input } from "../../components";
+import { Title, UIButton, Input, Error } from "../../components";
 import styled from "styled-components";
 import { RegistrationFooter } from "./components";
-
-export const FormError = styled.div`
-  margin: 8px 0;
-  padding: 10px 14px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  background: #ffe5e5;
-  border: 1px solid #ffb3b3;
-  color: #cc0000;
-  animation: fadeIn 0.2s ease-in-out;
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-3px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-`;
+import { useDispatch, useSelector } from "react-redux";
+import { ACTION_TYPE, setUser } from "../../store/actions";
+import { useNavigate } from "react-router-dom";
+import { selectWasLogout } from "../../store/selectors/selectors";
 
 const AuthorizationContainer = ({ className }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const wasLogout = useSelector(selectWasLogout);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
@@ -45,6 +31,15 @@ const AuthorizationContainer = ({ className }) => {
 
   const [serverError, setServerError] = useState(null);
 
+  useEffect(() => {
+    if (wasLogout) {
+      setTimeout(() => reset(), 0);
+      dispatch({
+        type: ACTION_TYPE.LOGOUT,
+      });
+    }
+  }, [wasLogout, dispatch, reset]);
+
   const onSubmit = async ({ login, password }) => {
     setServerError(null);
     try {
@@ -52,10 +47,11 @@ const AuthorizationContainer = ({ className }) => {
       const { error, res } = await authorize(login, password);
       if (error) {
         setServerError(error);
-      } else {
-        console.log("Authorize:", res);
+        return;
       }
-    } catch (error) {
+      dispatch(setUser(res));
+      navigate("/");
+    } catch {
       setServerError("Something went wrong. Try again.");
     }
   };
@@ -64,18 +60,27 @@ const AuthorizationContainer = ({ className }) => {
     <div className={className}>
       <Title>Log in</Title>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Input type="text" placeholder="Login..." {...register("login")} />
-        {errors.login && <FormError>{errors.login.message}</FormError>}
+        <Input
+          type="text"
+          placeholder="Login..."
+          {...register("login", {
+            onChange: () => setServerError(null),
+          })}
+        />
+        {errors.login && <Error>{errors.login.message}</Error>}
         <Input
           type="password"
           placeholder="Password..."
-          {...register("password")}
+          {...register("password", {
+            onChange: () => setServerError(null),
+          })}
         />
-        {errors.password && <FormError>{errors.password.message}</FormError>}
+        {errors.password && <Error>{errors.password.message}</Error>}
+
         <UIButton type="submit" disabled={!isValid}>
           Log in
         </UIButton>
-        {serverError && <FormError>{serverError}</FormError>}
+        {serverError && <Error>{serverError}</Error>}
       </form>
       <RegistrationFooter />
     </div>
