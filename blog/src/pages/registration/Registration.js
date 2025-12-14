@@ -3,13 +3,13 @@ import { Error, Input, Title, UIButton } from "../../components";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../utils";
 import { useState } from "react";
-import styled from "styled-components";
 import { server } from "../../bff";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "../../store/actions";
 import { useResetForm } from "../../hooks";
 import { selectWasLogout } from "../../store/selectors/selectors";
+import styled from "styled-components";
 
 const RegistrationContainer = ({ className }) => {
   const dispatch = useDispatch();

@@ -1,55 +1,78 @@
 import { useEffect, useState } from "react";
+import { Content, Icon, Loader, Title } from "../../components";
+import { UserItem } from "./components";
+import { useSelector } from "react-redux";
+import { selectSession } from "../../store/selectors/selectors";
+import { server } from "../../bff/server";
 import styled from "styled-components";
-import { getUsers } from "../../bff/get-users";
-import { Loader, FormatedDate, Title } from "../../components";
+
+const LoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+`;
+
+const UsersList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0 0;
+`;
+
+const TableHeader = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding: 0 4px;
+`;
+
+const UserItemWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+`;
 
 const UsersContainer = ({ className }) => {
   const [users, setUsers] = useState([]);
+  const [roles, setRoles] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const session = useSelector(selectSession);
+
   useEffect(() => {
-    const loadUsers = async () => {
-      setUsers(await getUsers());
-    };
     loadUsers();
-  }, []);
+    loadRoles();
+  }, [session]);
 
-  const LoaderWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60vh;
-  `;
-
-  const UsersList = styled.ul`
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  `;
-
-  const UserItem = styled.li`
-    background: #fafafa;
-    padding: 14px 20px;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    font-size: 16px;
-    font-weight: 500;
-    display: flex;
-    justify-content: space-between;
-
-    span:first-child {
-      color: #333;
+  const loadUsers = async () => {
+    const data = await server.fetchUsers(session);
+    const { error, res } = data;
+    if (error) {
+      setErrorMessage(error);
+      setUsers([]);
+      return;
     }
+    setUsers(res);
+  };
 
-    span:last-child {
-      color: #666;
-      font-size: 14px;
-      font-style: italic;
+  const loadRoles = async () => {
+    const data = await server.fetchRoles(session);
+    const { error, res } = data;
+    if (error) {
+      setErrorMessage(error);
+      setRoles([]);
+      return;
     }
-  `;
+    setRoles(res);
+  };
 
-  const UserLogin = styled.span`
-    color: #333;
-  `;
+  const handleDeleteUser = (id) => {
+    server.fetchDeleteUser(session, id);
+    loadUsers();
+  };
 
   if (!users)
     return (
@@ -57,17 +80,38 @@ const UsersContainer = ({ className }) => {
         <Loader />
       </LoaderWrapper>
     );
+
   return (
     <div className={className}>
-      <Title>Registrated Users</Title>
-      <UsersList>
-        {users.map(({ login, registred_at }, index) => (
-          <UserItem key={index}>
-            <UserLogin>{login}</UserLogin>
-            <FormatedDate>{registred_at}</FormatedDate>
-          </UserItem>
-        ))}
-      </UsersList>
+      <Content error={errorMessage}>
+        <Title>Registrated Users</Title>
+
+        <TableHeader>
+          <div>Login</div>
+          <div>Registration Date</div>
+          <div>Role</div>
+        </TableHeader>
+
+        <UsersList>
+          {users.map(({ id, login, role_id, registred_at }) => (
+            <UserItemWrapper key={id}>
+              <UserItem
+                id={id}
+                login={login}
+                registred_at={registred_at}
+                roleId={role_id}
+                roles={roles}
+              />
+              <Icon
+                color="#e74c3c"
+                iconClass="fa-trash-o"
+                margin="0 0 10px"
+                onClick={() => handleDeleteUser(id)}
+              />
+            </UserItemWrapper>
+          ))}
+        </UsersList>
+      </Content>
     </div>
   );
 };

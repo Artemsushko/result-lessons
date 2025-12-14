@@ -8,7 +8,7 @@ export const Input = styled(InputContainer)`
   width: ${({ width = "100%" }) => width};
   padding: 12px 15px;
   margin: 10px 0;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   border-radius: 8px;
   font-size: 16px;
   transition: all 0.2s ease;

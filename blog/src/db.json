@@ -1,53 +1,11 @@
 {
   "users": [
     {
-      "id": "001",
       "login": "artem123",
       "password": "qwe123",
-      "registred_at": "2023-12-04",
-      "role_id": 0
-    },
-    {
-      "id": "002",
-      "login": "nastushka_stich",
-      "password": "0000",
-      "registred_at": "2022-10-04",
-      "role_id": 0
-    },
-    {
-      "login": "measiaaa",
-      "password": "Lika1704",
-      "registred_at": "2025-12-01 23:42:04",
-      "role_id": 2,
-      "id": "2rmr0rK"
-    },
-    {
-      "login": "asdasdasd",
-      "password": "123123",
-      "registred_at": "2025-12-02 10:37:15",
-      "role_id": 2,
-      "id": "0JtFCvz"
-    },
-    {
-      "login": "artem12",
-      "password": "qweqwe",
-      "registred_at": "2025-12-02 10:38:08",
-      "role_id": 2,
-      "id": "cngpRAT"
-    },
-    {
-      "login": "asdas",
-      "password": "xxxxxx",
-      "registred_at": "2025-12-02 10:41:18",
-      "role_id": 2,
-      "id": "RNz42cS"
-    },
-    {
-      "login": "aaaa",
-      "password": "123123",
-      "registred_at": "2025-12-02 11:05:47",
-      "role_id": 2,
-      "id": "esYsanU"
+      "registred_at": "2025-12-11 20:21:09",
+      "role_id": 1,
+      "id": 1
     }
   ],
   "roles": [

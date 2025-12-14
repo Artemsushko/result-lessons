@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getPosts } from "../../bff";
-import styled from "styled-components";
 import { Loader, Title, FormatedDate } from "../../components";
+import { getPost } from "../../bff/api";
+import styled from "styled-components";
 
 const SinglePostImage = styled.img`
   width: 100%;
@@ -21,9 +21,7 @@ const SinglePostPageContainer = ({ className }) => {
 
   useEffect(() => {
     const loadPost = async () => {
-      const posts = await getPosts();
-      const post = posts.find((p) => p.id === postId);
-      setPost(post);
+      setPost(await getPost(postId));
     };
     loadPost();
   }, [postId]);

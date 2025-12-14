@@ -4,13 +4,13 @@ import { authorizationSchema } from "../../utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { server } from "../../bff";
 import { Title, UIButton, Input, Error } from "../../components";
-import styled from "styled-components";
 import { RegistrationFooter } from "./components";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/actions";
 import { useNavigate } from "react-router-dom";
 import { selectWasLogout } from "../../store/selectors/selectors";
 import { useResetForm } from "../../hooks";
+import styled from "styled-components";
 
 const AuthorizationContainer = ({ className }) => {
   const dispatch = useDispatch();

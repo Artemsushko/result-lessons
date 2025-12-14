@@ -13,15 +13,8 @@ import {
 
 const RightAligned = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: -2px;
-`;
-
-const StyledLink = styled(Link)`
-  &:hover {
-    color: #333;
-    transform: scale(1.05);
-  }
 `;
 
 const ControlPanelContainer = ({ className }) => {
@@ -61,15 +54,19 @@ const ControlPanelContainer = ({ className }) => {
         )}
       </RightAligned>
       <RightAligned>
-        <StyledLink onClick={() => navigate(-1)}>
-          <Icon iconClass="fa-hand-o-left" margin="16px 0 0 0" />
-        </StyledLink>
-        <StyledLink to="/post">
+        <Icon
+          iconClass="fa-hand-o-left"
+          margin="16px 0 0 0"
+          onClick={() => navigate(-1)}
+        />
+        <Link to="/post">
           <Icon iconClass="fa-file-text-o" margin="16px 0 0 14px" />
-        </StyledLink>
-        <StyledLink to="/users">
-          <Icon iconClass="fa-users" margin="16px 0 0 14px" />
-        </StyledLink>
+        </Link>
+        {roleId === ROLE.ADMIN && (
+          <Link to="/users">
+            <Icon iconClass="fa-users" margin="16px 0 0 14px" />
+          </Link>
+        )}
       </RightAligned>
     </div>
   );

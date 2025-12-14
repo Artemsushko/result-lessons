@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { Title } from "../../../title/Title";
+import styled from "styled-components";
 
 const Email = styled.div`
   font-size: 14px;

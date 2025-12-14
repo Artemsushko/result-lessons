@@ -1,1 +1,1 @@
-export const initialPostsState = {};
+export const initialPostsState = { search: "" };

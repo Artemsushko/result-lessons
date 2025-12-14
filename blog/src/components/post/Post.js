@@ -1,6 +1,6 @@
-import styled from "styled-components";
 import { Title, FormatedDate } from "../../components";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const PostImage = styled.img`
   width: 140px;

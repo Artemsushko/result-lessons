@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { Logo, Discription, ControlPanel } from "./components";
+import styled from "styled-components";
 
 const HeaderContainer = ({ className }) => (
   <header className={className}>

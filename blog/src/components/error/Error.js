@@ -5,6 +5,8 @@ const ErrorContainer = ({ children, className }) => (
 );
 
 export const Error = styled(ErrorContainer)`
+  display: flex;
+  justify-content: center;
   margin: 8px 0;
   padding: 10px 14px;
   border-radius: 6px;

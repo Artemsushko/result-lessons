@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { WEATHER_URL } from "../../../../constants";
-import styled from "styled-components";
 import { Loader } from "../../../../components";
+import styled from "styled-components";
 
 const Widget = styled.div`
   display: flex;
