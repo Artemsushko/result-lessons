@@ -45,6 +45,7 @@ const RegistrationContainer = ({ className }) => {
         return;
       }
       dispatch(setUser(res));
+      localStorage.setItem("session", JSON.stringify(res));
       navigate("/");
     } catch {
       setServerError("Something went wrong. Try again.");

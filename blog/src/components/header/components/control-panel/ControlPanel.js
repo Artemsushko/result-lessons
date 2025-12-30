@@ -24,6 +24,11 @@ const ControlPanelContainer = ({ className }) => {
   const login = useSelector(selectLogin);
   const session = useSelector(selectSession);
 
+  const onLogout = () => {
+    dispatch(logout(session));
+    localStorage.removeItem("session");
+  };
+
   return (
     <div className={className}>
       <RightAligned>
@@ -37,16 +42,15 @@ const ControlPanelContainer = ({ className }) => {
               {login}
             </Title>
             <Link
-              to="/"
+              to="/login"
               variant="outline"
               size="medium"
-              onClick={() => {
-                dispatch(logout(session));
-              }}
+              onClick={onLogout}
             >
               <Icon
                 iconClass="fa fa-sign-out"
                 size="20px"
+                hover
                 margin="0 0 0 10px"
               />
             </Link>
@@ -57,14 +61,15 @@ const ControlPanelContainer = ({ className }) => {
         <Icon
           iconClass="fa-hand-o-left"
           margin="16px 0 0 0"
+          hover
           onClick={() => navigate(-1)}
         />
         <Link to="/post">
-          <Icon iconClass="fa-file-text-o" margin="16px 0 0 14px" />
+          <Icon iconClass="fa-file-text-o" hover margin="16px 0 0 14px" />
         </Link>
         {roleId === ROLE.ADMIN && (
           <Link to="/users">
-            <Icon iconClass="fa-users" margin="16px 0 0 14px" />
+            <Icon iconClass="fa-users" hover margin="16px 0 0 14px" />
           </Link>
         )}
       </RightAligned>

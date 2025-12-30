@@ -1,8 +1,11 @@
 import { sessions } from "../sessions";
 import { getRoles } from "../api";
+import { ROLE } from "../constants";
 
 export const fetchRoles = async (hash) => {
-  if (!sessions.access(hash)) {
+  const accessRoles = [ROLE.ADMIN];
+
+  if (!sessions.access(hash, accessRoles)) {
     return {
       error: "Access denied",
       res: null,

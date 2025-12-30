@@ -3,7 +3,7 @@ import { Content, Icon, Loader, Title } from "../../components";
 import { UserItem } from "./components";
 import { useSelector } from "react-redux";
 import { selectSession } from "../../store/selectors/selectors";
-import { server } from "../../bff/server";
+import { server } from "../../bff";
 import styled from "styled-components";
 
 const LoaderWrapper = styled.div`
@@ -43,35 +43,39 @@ const UsersContainer = ({ className }) => {
   const session = useSelector(selectSession);
 
   useEffect(() => {
+    const loadUsers = async () => {
+      const data = await server.fetchUsers(session);
+      const { error, res } = data;
+      if (error) {
+        setErrorMessage(error);
+        setUsers([]);
+        return;
+      }
+      setUsers(res);
+    };
+
+    const loadRoles = async () => {
+      const data = await server.fetchRoles(session);
+      const { error, res } = data;
+      if (error) {
+        setErrorMessage(error);
+        setRoles([]);
+        return;
+      }
+      setRoles(res);
+    };
     loadUsers();
     loadRoles();
-  }, [session]);
+  }, [session, setUsers, setRoles]);
 
-  const loadUsers = async () => {
-    const data = await server.fetchUsers(session);
-    const { error, res } = data;
+  const handleDeleteUser = async (id) => {
+    const data = await server.fetchDeleteUser(session, id);
+    const { error } = data;
     if (error) {
       setErrorMessage(error);
-      setUsers([]);
       return;
     }
-    setUsers(res);
-  };
-
-  const loadRoles = async () => {
-    const data = await server.fetchRoles(session);
-    const { error, res } = data;
-    if (error) {
-      setErrorMessage(error);
-      setRoles([]);
-      return;
-    }
-    setRoles(res);
-  };
-
-  const handleDeleteUser = (id) => {
-    server.fetchDeleteUser(session, id);
-    loadUsers();
+    await server.fetchUsers(session);
   };
 
   if (!users)
@@ -106,6 +110,7 @@ const UsersContainer = ({ className }) => {
                 color="#e74c3c"
                 iconClass="fa-trash-o"
                 margin="0 0 10px"
+                hover
                 onClick={() => handleDeleteUser(id)}
               />
             </UserItemWrapper>

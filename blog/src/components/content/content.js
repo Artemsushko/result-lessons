@@ -10,7 +10,4 @@ const ContentContainer = ({ className, children, error }) =>
     <div className={className}>{children}</div>
   );
 
-export const Content = styled(ContentContainer)`
-  display: flex;
-  flex-direction: column;
-`;
+export const Content = styled(ContentContainer)``;

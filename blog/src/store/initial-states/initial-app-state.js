@@ -1,1 +1,1 @@
-export const initialAppState = { wasLogout: false };
+export const initialAppState = { wasLogout: false, error: null };

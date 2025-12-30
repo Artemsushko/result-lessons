@@ -2,5 +2,6 @@ export * from "./authorization/Authorization";
 export * from "./error/error";
 export * from "./registration/Registration";
 export * from "./main-page/MainPage";
-export * from "./single-post-page/SinglePostPage";
+export * from "./post/Post";
 export * from "./users/Users";
+export * from "./new-post/newPost";

@@ -37,13 +37,13 @@ const AuthorizationContainer = ({ className }) => {
   const onSubmit = async ({ login, password }) => {
     setServerError(null);
     try {
-      const { authorize } = server;
-      const { error, res } = await authorize(login, password);
+      const { error, res } = await server.authorize(login, password);
       if (error) {
         setServerError(error);
         return;
       }
       dispatch(setUser(res));
+      localStorage.setItem("session", JSON.stringify(res));
       navigate("/");
     } catch {
       setServerError("Something went wrong. Try again.");

@@ -9,12 +9,17 @@ const IconContainer = ({ className, iconClass, ...props }) => (
 export const Icon = styled(IconContainer)`
   font-size: ${({ size = "24px" }) => size};
   margin: ${({ margin = "0" }) => margin};
-  &:hover {
-    color: ${({ color = "#333" }) => color};
-    transform: scale(1.05);
-  }
-  cursor: pointer;
   line-height: 0;
+
+  ${({ hover }) =>
+    hover &&
+    css`
+      &:hover {
+        color: ${({ color = "#333" }) => color};
+        transform: scale(1.05);
+      }
+      cursor: pointer;
+    `}
 
   ${({ disabled }) =>
     disabled &&

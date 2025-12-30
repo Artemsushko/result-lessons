@@ -1,7 +1,7 @@
 import { ACTION_TYPE } from "../actions";
 import { initialAppState } from "../initial-states";
 
-export const appReducer = (state = initialAppState, { type }) => {
+export const appReducer = (state = initialAppState, { type, payload }) => {
   switch (type) {
     case ACTION_TYPE.LOGOUT:
       return {
@@ -12,6 +12,11 @@ export const appReducer = (state = initialAppState, { type }) => {
       return {
         ...state,
         wasLogout: false,
+      };
+    case ACTION_TYPE.SET_APP_ERROR:
+      return {
+        ...state,
+        error: payload,
       };
     default:
       return state;

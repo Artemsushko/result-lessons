@@ -4,11 +4,16 @@ import {
   Authorization,
   Registration,
   MainPage,
-  SinglePostPage,
+  Post,
   Users,
   Error,
+  NewPost,
 } from "./pages";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { useLayoutEffect } from "react";
+import { setUser } from "./store/actions";
+import { server } from "./bff";
 
 const ErrorBackgrondColor = styled.div`
   height: 100vh;
@@ -27,6 +32,19 @@ const AppColumn = styled.div`
 `;
 
 function Blog() {
+  const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    const savedSession = localStorage.getItem("session");
+    if (!savedSession) return;
+
+    const curentUserData = JSON.parse(savedSession);
+    server.addSession(curentUserData.session, curentUserData);
+    dispatch(
+      setUser({ ...curentUserData, roleId: Number(curentUserData.roleId) })
+    );
+  }, [dispatch]);
+
   function FullscreenLayout() {
     return (
       <ErrorBackgrondColor>
@@ -52,8 +70,8 @@ function Blog() {
         <Route path="/login" element={<Authorization />} />
         <Route path="/register" element={<Registration />} />
         <Route path="/users" element={<Users />} />
-        <Route path="/post/:postId" element={<SinglePostPage />} />
-        <Route path="/post" element={<div>New post</div>} />
+        <Route path="/post/:postId" element={<Post />} />
+        <Route path="/post" element={<NewPost />} />
       </Route>
 
       <Route element={<FullscreenLayout />}>

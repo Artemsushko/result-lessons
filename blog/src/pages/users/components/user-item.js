@@ -4,7 +4,7 @@ import { UserSelect } from "./user-select";
 import { useSelector } from "react-redux";
 import { selectSession } from "../../../store/selectors/selectors";
 import styled from "styled-components";
-import { server } from "../../../bff/server";
+import { server } from "../../../bff";
 
 const IconWrapper = styled.div`
   width: 20px;
@@ -51,6 +51,7 @@ const UserItemContainer = ({
         <Icon
           disabled={!isRoleChanged}
           iconClass="fa-floppy-o"
+          hover
           onClick={() => saveUserRole(id, selectedRole)}
         />
       </IconWrapper>
