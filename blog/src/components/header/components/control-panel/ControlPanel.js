@@ -64,9 +64,13 @@ const ControlPanelContainer = ({ className }) => {
           hover
           onClick={() => navigate(-1)}
         />
-        <Link to="/post">
-          <Icon iconClass="fa-file-text-o" hover margin="16px 0 0 14px" />
-        </Link>
+
+        {roleId !== ROLE.GUEST && (
+          <Link to="/post">
+            <Icon iconClass="fa-file-text-o" hover margin="16px 0 0 14px" />
+          </Link>
+        )}
+
         {roleId === ROLE.ADMIN && (
           <Link to="/users">
             <Icon iconClass="fa-users" hover margin="16px 0 0 14px" />

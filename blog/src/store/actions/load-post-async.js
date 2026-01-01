@@ -14,7 +14,9 @@ export const loadPostAsync = (postId) => async (dispatch) => {
   dispatch(setPostData(post));
 
   const comments = await getComments();
-  const postComments = comments.filter((comment) => comment.postId === postId);
+  const postComments = comments.filter(
+    (comment) => Number(comment.postId) === Number(postId)
+  );
 
   dispatch(setCommentsData(postComments));
 };

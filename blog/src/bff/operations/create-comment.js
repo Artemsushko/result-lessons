@@ -13,17 +13,17 @@ export const createComment = async (hash, author, postId, content) => {
   }
 
   const newComment = {
-    id: new Date(),
+    id: Date.now(),
     postId,
     author,
     content,
-    createdAt: getDate(),
+    published_at: getDate(),
   };
 
-  await addComment(newComment);
+  const savedComment = await addComment(newComment);
 
   return {
     error: null,
-    res: true,
+    res: savedComment,
   };
 };

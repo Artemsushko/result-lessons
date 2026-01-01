@@ -3,7 +3,6 @@ export const sessions = {
   create(user) {
     const hash = Math.random().toFixed(50);
     this.list[hash] = user;
-
     return hash;
   },
   remove(hash) {
@@ -14,7 +13,11 @@ export const sessions = {
   },
   access(hash, accessRoles) {
     const user = this.list[hash];
-    const userRoleId = Number(user.roleId);
+
+    if (!user) return false;
+
+    const userRoleId = Number(user.roleId ?? user.role_id);
+
     return accessRoles.includes(userRoleId);
   },
 };

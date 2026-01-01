@@ -11,7 +11,7 @@ export const fetchDeleteComment = async (hash, commentId) => {
     };
   }
 
-  deleteComment(commentId);
+  await deleteComment(commentId);
 
   return {
     error: null,

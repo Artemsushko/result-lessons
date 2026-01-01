@@ -164,7 +164,7 @@ const PostContentContainer = ({ className, post }) => {
           <FormatedDate>{published_at}</FormatedDate>
         </DateContainer>
 
-        {roleId !== ROLE.GUEST && (
+        {(roleId === ROLE.ADMIN || roleId === ROLE.MODERATOR) && (
           <StyledEditContainer>
             {isEditing ? (
               <>

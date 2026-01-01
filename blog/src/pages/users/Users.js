@@ -1,17 +1,10 @@
 import { useEffect, useState } from "react";
-import { Content, Icon, Loader, Title } from "../../components";
+import { Content, Icon, Title } from "../../components";
 import { UserItem } from "./components";
 import { useSelector } from "react-redux";
 import { selectSession } from "../../store/selectors/selectors";
 import { server } from "../../bff";
 import styled from "styled-components";
-
-const LoaderWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60vh;
-`;
 
 const UsersList = styled.ul`
   list-style: none;
@@ -77,13 +70,6 @@ const UsersContainer = ({ className }) => {
     }
     await server.fetchUsers(session);
   };
-
-  if (!users)
-    return (
-      <LoaderWrapper>
-        <Loader />
-      </LoaderWrapper>
-    );
 
   return (
     <div className={className}>

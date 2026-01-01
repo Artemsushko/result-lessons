@@ -15,7 +15,7 @@ import { ROLE } from "../../../../../../constants";
 import { useState } from "react";
 
 const CommentContainer = ({ className, comment, postId }) => {
-  const { id, author, content, createdAt } = comment;
+  const { id, author, content, published_at } = comment;
   const [isEditing, setIsEditing] = useState(false);
   const [contentValue, setContentValue] = useState(content);
   const dispatch = useDispatch();
@@ -62,7 +62,7 @@ const CommentContainer = ({ className, comment, postId }) => {
         </div>
         <div className="published_at">
           <Icon iconClass="fa-calendar-o" margin="0 8px 0 0" />
-          <FormatedDate>{createdAt}</FormatedDate>
+          <FormatedDate>{published_at}</FormatedDate>
         </div>
         {roleId === ROLE.ADMIN || roleId === ROLE.MODERATOR ? (
           <div className="edit-container">

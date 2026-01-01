@@ -13,9 +13,12 @@ export const addCommentAsync =
     }
 
     const comments = await getComments();
+
     const postComments = comments.filter(
-      (comment) => comment.postId === postId
+      (comment) => Number(comment.postId) === Number(postId)
     );
+
+    dispatch(setCommentsData(postComments));
 
     dispatch(setCommentsData(postComments));
   };

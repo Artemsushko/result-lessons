@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { WEATHER_URL } from "../../../../constants";
-import { Loader } from "../../../../components";
 import styled from "styled-components";
 
 const Widget = styled.div`
@@ -79,12 +78,7 @@ export const WeatherWidget = () => {
     loadWeather();
   }, []);
 
-  if (!weather)
-    return (
-      <Widget>
-        <Loader />
-      </Widget>
-    );
+  if (!weather) return;
 
   const { city, country, temperature, weatherIcon, weatherText } = weather;
 
