@@ -10,7 +10,6 @@ const getNotes = async () => {
 
 const addNote = async (title) => {
   const notes = await getNotes();
-  console.log(notes);
 
   const note = {
     id: Date.now().toString(),
