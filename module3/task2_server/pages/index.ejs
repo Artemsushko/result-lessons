@@ -26,13 +26,39 @@
         </div>
         <button type="submit" class="btn btn-primary mb-3">Submit</button>
       </form>
+
+      <% if(notes.length > 0) { %>
       <div class="card">
         <ul class="list-group">
           <% notes.forEach(note => { %>
-          <li class="list-group-item"><%= note.title %></li>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <span><%= note.title %></span>
+            <div>
+              <button
+                class="btn btn-primary"
+                data-type="edit"
+                data-id="<%= note.id %>"
+              >
+                Edit
+              </button>
+              <button
+                class="btn btn-danger"
+                data-type="remove"
+                data-id="<%= note.id %>"
+              >
+                Delete
+              </button>
+            </div>
+          </li>
           <% }); %>
         </ul>
       </div>
+      <% } else { %>
+      <p>No notes available.</p>
+      <% } %>
     </div>
+    <script src="/app.js"></script>
   </body>
 </html>
