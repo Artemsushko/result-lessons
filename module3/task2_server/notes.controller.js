@@ -31,7 +31,7 @@ const deleteNote = async (id) => {
   await saveNotes(filteredNotes);
 };
 
-async function editNote(id, newTitle) {
+const editNote = async (id, newTitle) => {
   const notes = await getNotes();
   const index = notes.findIndex((note) => note.id === id);
 
@@ -39,7 +39,7 @@ async function editNote(id, newTitle) {
     notes[index].title = newTitle;
     await saveNotes(notes);
   }
-}
+};
 
 module.exports = {
   addNote,

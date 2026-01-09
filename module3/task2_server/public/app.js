@@ -24,7 +24,7 @@ document.addEventListener('click', async (event) => {
     $li.innerHTML = `
       <input type="text" class="form-control me-3" value="${oldTitle}" id="input-${id}">
       <div class="d-flex">
-        <button class="btn btn-success me-2 " data-type="save" data-id="${id}">Save</button>
+        <button class="btn btn-success me-2" data-type="save" data-id="${id}">Save</button>
         <button class="btn btn-danger" data-type="cancel" data-id="${id}">Cancel</button>
       </div>
     `;
@@ -58,7 +58,7 @@ document.addEventListener('click', async (event) => {
           `;
         }
       } catch (e) {
-        alert('Ошибка при сохранении!');
+        alert('Ошибка при сохранении!', e);
       }
     }
   }
