@@ -8,3 +8,5 @@ export * from "./post/Post";
 export * from "./formated-date/FormatedDate";
 export * from "./error/Error";
 export * from "./content/content";
+export * from "./layouts";
+export * from "./layouts";

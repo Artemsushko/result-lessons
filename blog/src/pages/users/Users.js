@@ -62,13 +62,19 @@ const UsersContainer = ({ className }) => {
   }, [session, setUsers, setRoles]);
 
   const handleDeleteUser = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
+    if (!confirmDelete) return;
+
     const data = await server.fetchDeleteUser(session, id);
     const { error } = data;
     if (error) {
       setErrorMessage(error);
       return;
     }
-    await server.fetchUsers(session);
+    const { res } = await server.fetchUsers(session);
+    setUsers(res);
   };
 
   return (

@@ -1,5 +1,4 @@
-import { Outlet, Route, Routes } from "react-router-dom";
-import { Header, Footer } from "./components";
+import { Route, Routes } from "react-router-dom";
 import {
   Authorization,
   Registration,
@@ -9,32 +8,16 @@ import {
   Error,
   NewPost,
 } from "./pages";
-import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { setUser } from "./store/actions";
 import { server } from "./bff";
-
-const ErrorBackgrondColor = styled.div`
-  height: 100vh;
-  background-color: #fff;
-`;
-
-const AppColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 120px 0 0 0;
-  justify-content: space-between;
-  width: 1000px;
-  min-height: 100%;
-  margin: auto;
-  background-color: #fff;
-`;
+import { FullscreenLayout, DefaultLayout } from "./components";
 
 function Blog() {
   const dispatch = useDispatch();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const savedSession = localStorage.getItem("session");
     if (!savedSession) return;
 
@@ -44,24 +27,6 @@ function Blog() {
       setUser({ ...curentUserData, roleId: Number(curentUserData.roleId) })
     );
   }, [dispatch]);
-
-  function FullscreenLayout() {
-    return (
-      <ErrorBackgrondColor>
-        <Outlet />
-      </ErrorBackgrondColor>
-    );
-  }
-
-  function DefaultLayout() {
-    return (
-      <AppColumn>
-        <Header />
-        <Outlet />
-        <Footer />
-      </AppColumn>
-    );
-  }
 
   return (
     <Routes>

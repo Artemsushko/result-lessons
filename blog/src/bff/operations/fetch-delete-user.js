@@ -11,7 +11,7 @@ export const fetchDeleteUser = async (hash, userId) => {
     };
   }
 
-  deleteUser(userId);
+  await deleteUser(userId);
 
   return {
     error: null,

@@ -3,30 +3,9 @@
     {
       "login": "asdasd",
       "password": "asdasd",
-      "registred_at": "2025-12-16 19:30:10",
+      "registred_at": "2026-01-09 13:39:05",
       "role_id": 0,
-      "id": 2
-    },
-    {
-      "login": "gggg",
-      "password": "gggg123",
-      "registred_at": "2025-12-27 23:46:12",
-      "role_id": 2,
-      "id": 3
-    },
-    {
-      "login": "me.asiaaa",
-      "password": "measiaaaa",
-      "registred_at": "2025-12-30 21:59:40",
-      "role_id": 0,
-      "id": 4
-    },
-    {
-      "login": "likaaaa",
-      "password": "likaaaaa",
-      "registred_at": "2025-12-30 22:33:28",
-      "role_id": 2,
-      "id": 5
+      "id": 1
     }
   ],
   "roles": [
@@ -56,13 +35,6 @@
       "published_at": "2025-04-24"
     },
     {
-      "id": "008",
-      "title": "Donec sodales sagittiss",
-      "image_url": "https://fastly.picsum.photos/id/869/280/150.jpg?hmac=p7plWV4Mb_CUkRzzez0g3OmHqL3MRixH_UoWgpo4Ozk",
-      "content": "wwwwwwwww dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,",
-      "published_at": "2024-01-10"
-    },
-    {
       "id": "009",
       "title": "Nulla consequat massa quis enim",
       "image_url": "https://fastly.picsum.photos/id/5/280/150.jpg?hmac=ea0wvcKghmd32DVGaojBj4sBFWS6XvUL2potnCuXpWU",
@@ -71,27 +43,6 @@
     }
   ],
   "comments": [
-    {
-      "id": 1767137011965,
-      "postId": "008",
-      "author": "me.asiaaa",
-      "content": "cccc23",
-      "published_at": "2025-12-30 23:23:31"
-    },
-    {
-      "id": 1767303215638,
-      "postId": "009",
-      "author": "asdasd",
-      "content": "2323",
-      "published_at": "2026-01-01 21:33:35"
-    },
-    {
-      "id": 1767303222347,
-      "postId": "008",
-      "author": "asdasd",
-      "content": "111",
-      "published_at": "2026-01-01 21:33:42"
-    },
     {
       "id": 1767303228545,
       "postId": "004",
