@@ -1,44 +1,25 @@
-const fs = require('fs/promises');
-const path = require('path');
-
-const dbPath = path.join(__dirname, 'db.json');
-
-const saveNotes = async (notes) => {
-  await fs.writeFile(dbPath, JSON.stringify(notes));
-};
+const Note = require('./models/Node');
+const chalk = require('chalk');
 
 const getNotes = async () => {
-  const notes = await fs.readFile(dbPath, { encoding: 'utf-8' });
-  return Array.isArray(JSON.parse(notes)) ? JSON.parse(notes) : [];
+  const notes = await Note.find();
+  return notes;
 };
 
 const addNote = async (title) => {
-  const notes = await getNotes();
+  await Note.create({ title });
 
-  const note = {
-    id: Date.now().toString(),
-    title,
-  };
-
-  notes.push(note);
-
-  await saveNotes(notes);
+  console.log(chalk.green('Note added:', title));
 };
 
 const deleteNote = async (id) => {
-  const notes = await getNotes();
-  const filteredNotes = notes.filter((note) => note.id !== id);
-  await saveNotes(filteredNotes);
+  await Note.deleteOne({ _id: id });
+  console.log(chalk.red('Note deleted:', id));
 };
 
 const editNote = async (id, newTitle) => {
-  const notes = await getNotes();
-  const index = notes.findIndex((note) => note.id === id);
-
-  if (index !== -1) {
-    notes[index].title = newTitle;
-    await saveNotes(notes);
-  }
+  await Note.updateOne({ _id: id }, { title: newTitle });
+  console.log(chalk.yellow('Note edited:', id, 'New title:', newTitle));
 };
 
 module.exports = {

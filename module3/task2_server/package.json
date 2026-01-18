@@ -17,6 +17,8 @@
     "chalk": "^4.1.2",
     "ejs": "^3.1.10",
     "express": "^5.2.1",
+    "mongodb": "^7.0.0",
+    "mongoose": "^9.1.2",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
